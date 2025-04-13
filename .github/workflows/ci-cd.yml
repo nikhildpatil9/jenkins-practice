@@ -35,7 +35,7 @@ jobs:
     - name: Build Java App with Maven
       run: |
         cd code-with-quarkus
-        mvn clean package
+        mvn clean install
 
     ### ---------------------- PYTHON BUILD ----------------------
    
