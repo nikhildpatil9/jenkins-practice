@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CI Workflow Generator</title>
+</head>
+<body>
+    <h2>Generate GitHub Actions Workflow</h2>
+    <form method="post">
+        <label for="build_tool">Select Build Tool:</label>
+        <select name="build_tool" required>
+            {% for tool in tools %}
+                <option value="{{ tool }}">{{ tool }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="artifactory">Select Artifactory:</label>
+        <select name="artifactory" required>
+            {% for repo in repos %}
+                <option value="{{ repo }}">{{ repo }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <button type="submit">Generate Workflow</button>
+    </form>
+</body>
+</html>

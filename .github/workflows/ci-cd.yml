@@ -86,3 +86,117 @@ jobs:
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        
+  detect-and-build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Node.js Project (npm/yarn)
+      - name: Detect and Build Node.js (npm)
+        if: hashFiles('**/package.json') != ''
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - run: |
+          echo "🟢 Detected Node.js Project"
+          npm ci
+          npm run build || echo "No build script defined"
+
+      # Python (Poetry or Pipenv)
+      - name: Detect and Build Python (Poetry)
+        if: hashFiles('**/pyproject.toml') != ''
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: |
+          echo "🐍 Detected Python Project"
+          pip install poetry
+          poetry install
+          poetry build || echo "No build step"
+
+      - name: Detect and Build Python (Pipenv)
+        if: hashFiles('**/Pipfile') != ''
+        run: |
+          pip install pipenv
+          pipenv install
+          echo "Pipenv setup complete"
+
+      # Java (Maven or Gradle)
+      - name: Detect and Build Java (Maven)
+        if: hashFiles('**/pom.xml') != ''
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - run: |
+          echo "☕ Detected Maven Project"
+          mvn clean install
+
+      - name: Detect and Build Java (Gradle)
+        if: hashFiles('**/build.gradle') != '' || hashFiles('**/build.gradle.kts') != ''
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - run: |
+          echo "⚙️ Detected Gradle Project"
+          chmod +x gradlew || true
+          ./gradlew build
+
+      # Go
+      - name: Detect and Build Go
+        if: hashFiles('**/go.mod') != ''
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+      - run: |
+          echo "🐹 Detected Go Project"
+          go build ./...
+
+      # Rust
+      - name: Detect and Build Rust
+        if: hashFiles('**/Cargo.toml') != ''
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - run: |
+          echo "🦀 Detected Rust Project"
+          cargo build --release
+
+      # .NET
+      - name: Detect and Build .NET
+        if: hashFiles('**/*.csproj') != ''
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '7.0.x'
+      - run: |
+          echo "🧱 Detected .NET Project"
+          dotnet build
+
+      # Upload artifacts (from common locations)
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: |
+            **/build/**
+            **/dist/**
+            **/target/**
+            **/bin/**
+            **/*.jar
+            **/*.whl
+            **/*.zip
+            **/*.apk
+            **/*.dll
+            **/*.exe
+      - name: Upload JAR to JFrog
+        run: |
+          curl -u $JFROG_USERNAME:$JFROG_PASSWORD \
+            -T **/target/*.zip \
+            "$JFROG_URL/libs-release-local/my-java-app.zip"
+      
+
+      
