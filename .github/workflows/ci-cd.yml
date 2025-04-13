@@ -86,7 +86,7 @@ jobs:
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        
+
   detect-and-build:
     runs-on: ubuntu-latest
     steps:
@@ -102,6 +102,7 @@ jobs:
           node-version: '18'
       - run: |
           echo "🟢 Detected Node.js Project"
+          pwd
           npm ci
           npm run build || echo "No build script defined"
 
