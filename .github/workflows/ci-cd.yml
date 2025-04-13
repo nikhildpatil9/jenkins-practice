@@ -12,6 +12,9 @@ on:
 env:
   SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  JFROG_URL: ${{ secrets.JFROG_URL }}
+  JFROG_USERNAME: ${{ secrets.JFROG_USERNAME }}
+  JFROG_PASSWORD: ${{ secrets.JFROG_PASSWORD }}
  
 
 jobs:
@@ -48,7 +51,11 @@ jobs:
 
     ### ---------------------- PUBLISH TO JFROG ----------------------
    
-
+    - name: Upload JAR to JFrog
+      run: |
+        curl -u $JFROG_USERNAME:$JFROG_PASSWORD \
+          -T backend/target/*.jar \
+          "$JFROG_URL/libs-release-local/my-java-app.jar"
 
 
 
