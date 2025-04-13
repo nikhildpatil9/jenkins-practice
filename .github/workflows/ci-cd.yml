@@ -72,7 +72,6 @@ jobs:
         projectBaseDir: code-with-quarkus
         args: >
           -Dsonar.projectKey=java-app
-          -Dsonar.projectName=Java App
           -Dsonar.sources=src
           -Dsonar.java.binaries=target
         
