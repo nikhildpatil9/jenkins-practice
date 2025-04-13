@@ -1,0 +1,10 @@
+<app-call-table
+[dataSource]="dataSource"
+[columnsToDisplay]="columnsToDisplay"
+[columnsToDisplayWithExpand]="columnsToDisplayWithExpand">
+    <ng-template let-data #expandedRowData>
+        <div>
+            {{data|json}}
+        </div>
+    </ng-template>
+</app-call-table>

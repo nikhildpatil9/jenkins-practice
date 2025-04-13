@@ -1,0 +1,90 @@
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+
+
+
+
+    .bg-red{
+        background-color: red !important;
+    }
+    .h-100 {
+        height: 100%;
+      
+
+    }
+    .bg-white{
+        background-color: white;
+    }
+    .shadow-1{
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+
+    }
+    .d-flex {
+        display: flex !important;
+    }
+    
+    .jc-bt {
+        justify-content: space-between;
+    
+    }
+    
+    .jc-end {
+        justify-content: end;
+    
+    }
+    
+    .jc-start {
+        justify-content: start;
+    }
+    
+    .jc-center {
+        justify-content: center;
+    }
+    
+    .align-center {
+        align-items: center;
+    }
+    
+    .align-start {
+        align-items: start;
+    
+    }
+    
+    .align-end {
+        align-items: end;
+    
+    }
+    
+    .parent-div1 {
+        background-color: aqua;
+        height: 200px;
+        width: 400px;
+    }
+    
+    .child-div1 {
+        background-color: rgb(255, 119, 0);
+        height: 30px;
+        width: 70px;
+    }
+    
+    .child-div2 {
+        background-color: rgb(255, 0, 0);
+        height: 30px;
+        width: 70px;
+    }
+    
+    .d-flex-wrap{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 10px;
+    }
+}

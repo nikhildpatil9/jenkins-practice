@@ -1,0 +1,98 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+
+env:
+  SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  
+
+jobs:
+  build-and-analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+
+env:
+  SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+ 
+
+jobs:
+  build-and-analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    ### ---------------------- ANGULAR BUILD ----------------------
+    
+
+    ### ---------------------- JAVA BUILD ----------------------
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Build Java App with Maven
+      run: |
+        cd code-with-quarkus
+        mvn clean package
+
+    ### ---------------------- PYTHON BUILD ----------------------
+   
+
+    ### ---------------------- SONARQUBE SCAN ----------------------
+    - name: SonarQube Scanner (Java)
+      run: |
+        cd backend
+        mvn sonar:sonar \
+          -Dsonar.projectKey=java-app \
+          -Dsonar.host.url=${{ env.SONAR_HOST_URL }} \
+          -Dsonar.login=${{ env.SONAR_TOKEN }}
+
+    
+
+    ### ---------------------- PUBLISH TO NEXUS ----------------------
+   
+
+    ### ---------------------- PUBLISH TO JFROG ----------------------
+   
+
+
+    ### ---------------------- JAVA BUILD ----------------------
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Build Java App with Maven
+      run: |
+        cd backend
+        mvn clean package
+
+    ### ---------------------- PYTHON BUILD ----------------------
+   
+
+    ### ---------------------- SONARQUBE SCAN ----------------------
+    - name: SonarQube Scanner (Java)
+      run: |
+        cd backend
+        mvn sonar:sonar \
+          -Dsonar.projectKey=java-app \
+          -Dsonar.host.url=${{ env.SONAR_HOST_URL }} \
+          -Dsonar.login=${{ env.SONAR_TOKEN }}
+
+   
