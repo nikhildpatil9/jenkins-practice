@@ -40,14 +40,6 @@ jobs:
     ### ---------------------- PYTHON BUILD ----------------------
    
 
-    ### ---------------------- SONARQUBE SCAN ----------------------
-    - name: SonarQube Scanner (Java)
-      run: |
-        cd backend
-        mvn sonar:sonar \
-          -Dsonar.projectKey=java-app \
-          -Dsonar.host.url=${{ env.SONAR_HOST_URL }} \
-          -Dsonar.login=${{ env.SONAR_TOKEN }}
 
     
 
@@ -58,17 +50,9 @@ jobs:
    
 
 
-    ### ---------------------- JAVA BUILD ----------------------
-    - name: Set up Java
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
 
-    - name: Build Java App with Maven
-      run: |
-        cd backend
-        mvn clean package
+
+
 
     ### ---------------------- PYTHON BUILD ----------------------
    
@@ -76,7 +60,7 @@ jobs:
     ### ---------------------- SONARQUBE SCAN ----------------------
     - name: SonarQube Scanner (Java)
       run: |
-        cd backend
+        cd code-with-quarkus
         mvn sonar:sonar \
           -Dsonar.projectKey=java-app \
           -Dsonar.host.url=${{ env.SONAR_HOST_URL }} \
