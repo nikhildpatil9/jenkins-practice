@@ -55,7 +55,7 @@ jobs:
       run: |
         curl -u $JFROG_USERNAME:$JFROG_PASSWORD \
           -T **/target/*.jar \
-          "$JFROG_URL/libs-release-local/my-java-app.jar"
+          "$JFROG_URL/"
 
 
 
