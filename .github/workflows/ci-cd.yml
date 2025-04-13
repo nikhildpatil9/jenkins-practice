@@ -54,7 +54,7 @@ jobs:
     - name: Upload JAR to JFrog
       run: |
         curl -u $JFROG_USERNAME:$JFROG_PASSWORD \
-          -T backend/target/*.jar \
+          -T **/target/*.jar \
           "$JFROG_URL/libs-release-local/my-java-app.jar"
 
 
