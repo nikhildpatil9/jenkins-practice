@@ -70,6 +70,13 @@ jobs:
       uses: SonarSource/sonarqube-scan-action@v2.0.0
       with:
         projectBaseDir: code-with-quarkus
+        args: >
+          -Dsonar.projectKey=java-app
+          -Dsonar.projectName=Java App
+          -Dsonar.sources=src
+          -Dsonar.java.binaries=target
+        
+
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
