@@ -19,7 +19,7 @@ env:
 
 jobs:
   build-and-analyze:
-    runs-on: ubuntu-latest
+    runs-on: ec2-github-runner
 
     steps:
     - name: Checkout code
