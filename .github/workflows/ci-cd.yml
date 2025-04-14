@@ -19,7 +19,7 @@ env:
 
 jobs:
   build-and-analyze:
-    runs-on: ubuntu-latest
+    runs-on: ec2-github-runner
 
     steps:
     - name: Checkout code
@@ -102,7 +102,7 @@ jobs:
           node-version: '18'
       - run: |
           echo "🟢 Detected Node.js Project"
-          cd "$(dirname "$(find . -type f -name '**/package.json' | head -n 1)")"
+          cd "$(dirname "$(find . -type f -name 'package.json' | head -n 1)")"
 
           npm ci
           npm run build || echo "No build script defined"
