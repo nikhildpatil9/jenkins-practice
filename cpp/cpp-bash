@@ -1,0 +1,139 @@
+#!/bin/bash
+
+set -e
+
+echo "🛠️ Setting up Calculator project..."
+
+# Create project directory
+mkdir -p cpp_unit_test_demo && cd cpp_unit_test_demo
+
+# Step 1: Create source files
+echo "📄 Creating source files..."
+cat <<EOF > calculator.h
+#ifndef CALCULATOR_H
+#define CALCULATOR_H
+
+class Calculator {
+public:
+    int add(int a, int b);
+    int subtract(int a, int b);
+};
+
+#endif // CALCULATOR_H
+EOF
+
+cat <<EOF > calculator.cpp
+#include "calculator.h"
+
+int Calculator::add(int a, int b) {
+    return a + b;
+}
+
+int Calculator::subtract(int a, int b) {
+    return a - b;
+}
+EOF
+
+# Step 2: Create Google Test file
+echo "📄 Creating Google Test..."
+cat <<EOF > test_calculator_gtest.cpp
+#include <gtest/gtest.h>
+#include "calculator.h"
+
+TEST(CalculatorTest, AddTest) {
+    Calculator calc;
+    EXPECT_EQ(calc.add(2, 3), 5);
+    EXPECT_EQ(calc.add(-1, -1), -2);
+}
+
+TEST(CalculatorTest, SubtractTest) {
+    Calculator calc;
+    EXPECT_EQ(calc.subtract(5, 3), 2);
+    EXPECT_EQ(calc.subtract(0, 4), -4);
+}
+EOF
+
+# Step 3: Create Catch2 test (v2.13.10)
+echo "📄 Creating Catch2 Test..."
+curl -L https://raw.githubusercontent.com/catchorg/Catch2/v2.13.10/single_include/catch2/catch.hpp -o catch.hpp
+
+cat <<EOF > test_calculator_catch2.cpp
+#define CATCH_CONFIG_MAIN
+#include "catch.hpp"
+#include "calculator.h"
+
+TEST_CASE("Addition works", "[add]") {
+    Calculator calc;
+    REQUIRE(calc.add(2, 3) == 5);
+    REQUIRE(calc.add(-2, -3) == -5);
+}
+
+TEST_CASE("Subtraction works", "[subtract]") {
+    Calculator calc;
+    REQUIRE(calc.subtract(5, 3) == 2);
+    REQUIRE(calc.subtract(2, 5) == -3);
+}
+EOF
+
+# Step 4: Create Boost.Test file
+echo "📄 Creating Boost Test..."
+cat <<EOF > test_calculator_boost.cpp
+#define BOOST_TEST_MODULE CalculatorTest
+#include <boost/test/included/unit_test.hpp>
+#include "calculator.h"
+
+BOOST_AUTO_TEST_CASE(AddTest) {
+    Calculator calc;
+    BOOST_CHECK_EQUAL(calc.add(1, 2), 3);
+    BOOST_CHECK_EQUAL(calc.add(-3, 3), 0);
+}
+
+BOOST_AUTO_TEST_CASE(SubtractTest) {
+    Calculator calc;
+    BOOST_CHECK_EQUAL(calc.subtract(5, 2), 3);
+    BOOST_CHECK_EQUAL(calc.subtract(1, 5), -4);
+}
+EOF
+
+# Step 5: Create Doctest test
+echo "📄 Creating Doctest Test..."
+curl -L https://raw.githubusercontent.com/doctest/doctest/master/doctest/doctest.h -o doctest.h
+
+cat <<EOF > test_calculator_doctest.cpp
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+#include "calculator.h"
+
+TEST_CASE("Testing addition") {
+    Calculator calc;
+    CHECK(calc.add(1, 1) == 2);
+    CHECK(calc.add(-1, -1) == -2);
+}
+
+TEST_CASE("Testing subtraction") {
+    Calculator calc;
+    CHECK(calc.subtract(5, 3) == 2);
+    CHECK(calc.subtract(3, 5) == -2);
+}
+EOF
+
+# Step 6: Compile and Run Tests
+echo "⚙️ Compiling and running tests..."
+
+echo "🔹 Google Test:"
+g++ -std=c++17 calculator.cpp test_calculator_gtest.cpp -lgtest -lgtest_main -pthread -o test_gtest
+./test_gtest
+
+echo "🔹 Catch2:"
+g++ -std=c++17 calculator.cpp test_calculator_catch2.cpp -o test_catch2
+./test_catch2
+
+echo "🔹 Boost.Test:"
+g++ -std=c++17 calculator.cpp test_calculator_boost.cpp -lboost_unit_test_framework -o test_boost
+./test_boost
+
+echo "🔹 Doctest:"
+g++ -std=c++17 calculator.cpp test_calculator_doctest.cpp -o test_doctest
+./test_doctest
+
+echo "✅ All tests completed successfully!"
