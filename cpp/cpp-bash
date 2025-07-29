@@ -137,3 +137,17 @@ g++ -std=c++17 calculator.cpp test_calculator_doctest.cpp -o test_doctest
 ./test_doctest
 
 echo "✅ All tests completed successfully!"
+g++ -std=c++17 calculator.cpp test_calculator_gtest.cpp -lgtest -lgtest_main -pthread -o test_gtest
+./test_gtest --gtest_output=xml:report_gtest.xml
+
+echo "🔹 Catch2:"
+g++ -std=c++17 calculator.cpp test_calculator_catch2.cpp -o test_catch2
+./test_catch2 --reporter xml --out report_catch2.xml
+
+echo "🔹 Boost.Test:"
+g++ -std=c++17 calculator.cpp test_calculator_boost.cpp -lboost_unit_test_framework -o test_boost
+./test_boost --log_level=test_suite > report_boost.log
+
+echo "🔹 Doctest:"
+g++ -std=c++17 calculator.cpp test_calculator_doctest.cpp -o test_doctest
+./test_doctest --reporters=xml --out=report_doctest.xml
